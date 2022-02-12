@@ -1,0 +1,19 @@
+https://stackoverflow.com/questions/61281565/how-remote-debug-c-net-app-on-linux-when-the-app-is-run-under-a-different-user?rq=1
+
+find ~ | grep vsdbg
+
+#First, rename the binary to something convenient:
+mv ~/.vs-debugger/vs2019/vsdbg ~/.vs-debugger/vs2019/vsdbg-bin
+
+#Second, create a script to replace the binary:
+touch ~/.vs-debugger/vs2019/vsdbg
+chmod 770 ~/.vs-debugger/vs2019/vsdbg
+nano ~/.vs-debugger/vs2019/vsdbg
+
+The script content might look something like this, note the full path to vsdbg-bin, 
+the use of $@ ensures all command-line args passed to your script are forwarded to VsDbg.
+
+#!/bin/bash
+sudo ~/.vs-debugger/vs2019/vsdbg-bin $@
+
+Now retry your debug session from Visual Studio
